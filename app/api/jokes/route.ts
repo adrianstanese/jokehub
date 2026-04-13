@@ -98,8 +98,6 @@ export async function POST(req: NextRequest) {
 
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
 
-    }
-
     // Duplicate detection: simple text similarity check
     const normalizedText = text.trim().toLowerCase().replace(/[^a-z0-9\s\u00C0-\u024F\u0400-\u04FF]/g, "");
 
