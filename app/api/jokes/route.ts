@@ -98,13 +98,6 @@ export async function POST(req: NextRequest) {
 
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
 
-    // Rate limit: max 5 jokes per hour per IP
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-    const recentCount = await prisma.joke.count({
-      where: { ip, createdAt: { gte: oneHourAgo } },
-    });
-    if (recentCount >= 5) {
-      return NextResponse.json({ error: "Rate limit: max 5 jokes per hour. Try again later." }, { status: 429 });
     }
 
     // Duplicate detection: simple text similarity check
