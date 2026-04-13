@@ -17,37 +17,37 @@ export async function GET() {
 
   return NextResponse.json({
     total,
-    countries: byCountry.map((c) => ({
-      country: c.country,
-      flag: c.flag,
-      count: c._count,
-    })),
+    countries: byCountry
+      .filter((c) => c.country !== "XX")
+      .map((c) => ({
+        country: c.country,
+        flag: c.flag,
+        count: c._count,
+      })),
   });
 }
 
-// POST /api/visit — log a visit
+// POST /api/visit — log every visit, detect country from Vercel headers
 export async function POST(req: NextRequest) {
   try {
-    const { visitorId, country, flag } = await req.json();
+    const body = await req.json().catch(() => ({}));
 
-    // Only log once per visitor per day
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
+    // Vercel provides free geo headers on every request
+    const countryHeader = req.headers.get("x-vercel-ip-country") || "";
+    const cc = body.country || countryHeader || "XX";
 
-    if (visitorId) {
-      const alreadyToday = await prisma.visit.findFirst({
-        where: { visitorId, createdAt: { gte: todayStart } },
-      });
-      if (alreadyToday) {
-        return NextResponse.json({ logged: false });
-      }
-    }
+    // Convert country code to flag emoji
+    const codeToFlag = (code: string) => {
+      if (!code || code.length !== 2 || code === "XX") return "🏳️";
+      return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+    };
+
+    const flag = body.flag || codeToFlag(cc);
 
     await prisma.visit.create({
       data: {
-        visitorId: visitorId || null,
-        country: country || "XX",
-        flag: flag || "🏳️",
+        country: cc,
+        flag: flag,
       },
     });
 

@@ -123,20 +123,7 @@ export default function JokeHubApp() {
 
   // Track visit
   useEffect(() => {
-    const codeToFlag = (code: string) => {
-      if (!code || code.length !== 2) return "🏳️";
-      return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
-    };
-    fetch("https://ipapi.co/json/").then(r => r.json()).then(geo => {
-      const cc = geo.country_code || "XX";
-      fetch("/api/visit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ visitorId, country: cc, flag: codeToFlag(cc) }),
-      });
-    }).catch(() => {
-      fetch("/api/visit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ visitorId, country: "XX", flag: "🏳️" }) });
-    });
+    fetch("/api/visit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
   }, []);
 
   // Load visit stats
