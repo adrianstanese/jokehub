@@ -1,6 +1,6 @@
 {
-  "name": "JokeHub",
-  "short_name": "JokeHub",
+  "name": "Jokes Jar",
+  "short_name": "Jokes Jar",
   "description": "The world's funniest corner of the internet",
   "start_url": "/",
   "display": "standalone",

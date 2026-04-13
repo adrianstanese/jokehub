@@ -10,9 +10,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { name } = await params;
   const decoded = decodeURIComponent(name);
   return {
-    title: `#${decoded} Jokes — JokeHub`,
+    title: `#${decoded} Jokes — Jokes Jar`,
     description: `The funniest #${decoded} jokes voted by the community. Browse, laugh, vote!`,
-    openGraph: { title: `#${decoded} Jokes — JokeHub`, description: `Community-voted #${decoded} jokes` },
+    openGraph: { title: `#${decoded} Jokes — Jokes Jar`, description: `Community-voted #${decoded} jokes` },
   };
 }
 
@@ -33,7 +33,7 @@ export default async function TagPage({ params }: Props) {
   return (
     <div style={{ maxWidth: 700, margin: "40px auto", padding: "0 20px", fontFamily: "'DM Sans', sans-serif" }}>
       <a href="/" style={{ fontSize: 13, color: "var(--purple)", textDecoration: "none", fontWeight: 650, marginBottom: 20, display: "inline-block" }}>
-        ← Back to JokeHub
+        ← Back to Jokes Jar
       </a>
       <h1 style={{ fontSize: 28, fontWeight: 800, color: "var(--text)", margin: "0 0 8px" }}>#{decoded}</h1>
       <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 24 }}>{jokes.length} joke{jokes.length !== 1 ? "s" : ""}</p>

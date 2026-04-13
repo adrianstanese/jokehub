@@ -5,15 +5,15 @@ import { LANGUAGES, EMOJIS, FLAG_REASONS } from "@/lib/constants";
 // ─── Visitor ID (cookie-based) ───
 function getVisitorId() {
   if (typeof window === "undefined") return "";
-  let id = localStorage.getItem("jokehub-vid");
-  if (!id) { id = "v_" + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem("jokehub-vid", id); }
+  let id = localStorage.getItem("jokesjar-vid");
+  if (!id) { id = "v_" + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem("jokesjar-vid", id); }
   return id;
 }
 
 // ─── Theme ───
 function getTheme() {
   if (typeof window === "undefined") return "light";
-  return localStorage.getItem("jokehub-theme") || "light";
+  return localStorage.getItem("jokesjar-theme") || "light";
 }
 
 // ─── Types ───
@@ -75,7 +75,7 @@ function JokeSkeleton() {
 // MAIN APP
 // ═══════════════════════════════════════
 
-export default function JokeHubApp() {
+export default function Jokes JarApp() {
   const [theme, setTheme] = useState("light");
   const [page, setPage] = useState<"feed" | "submit" | "admin">("feed");
   const [jokes, setJokes] = useState<Joke[]>([]);
@@ -110,16 +110,16 @@ export default function JokeHubApp() {
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
     setTheme(next);
-    localStorage.setItem("jokehub-theme", next);
+    localStorage.setItem("jokesjar-theme", next);
     if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
     else document.documentElement.removeAttribute("data-theme");
   };
 
   // Load votes from localStorage
   useEffect(() => {
-    try { const v = localStorage.getItem("jokehub-votes"); if (v) setVotes(JSON.parse(v)); } catch {}
+    try { const v = localStorage.getItem("jokesjar-votes"); if (v) setVotes(JSON.parse(v)); } catch {}
   }, []);
-  const saveVotes = (v: Record<string, number>) => { setVotes(v); localStorage.setItem("jokehub-votes", JSON.stringify(v)); };
+  const saveVotes = (v: Record<string, number>) => { setVotes(v); localStorage.setItem("jokesjar-votes", JSON.stringify(v)); };
 
   // Track visit
   useEffect(() => {
@@ -218,7 +218,7 @@ export default function JokeHubApp() {
   // Share
   const shareJoke = (joke: Joke, method: string) => {
     const url = typeof window !== "undefined" ? window.location.origin + "/joke/" + joke.id : "";
-    const text = joke.text + "\n\n— @" + joke.author + " on JokeHub";
+    const text = joke.text + "\n\n— @" + joke.author + " on Jokes Jar";
     if (method === "copy") { navigator.clipboard.writeText(text + "\n" + url); }
     else if (method === "whatsapp") { window.open("https://wa.me/?text=" + encodeURIComponent(text + "\n" + url)); }
     else if (method === "twitter") { window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(url)); }
@@ -258,11 +258,11 @@ export default function JokeHubApp() {
             display: "flex", alignItems: "center", justifyContent: "center",
             boxShadow: "0 4px 16px rgba(124,58,237,0.25), var(--highlight)",
           }}>
-            <span style={{ fontSize: 20 }}>😂</span>
+            <span style={{ fontSize: 20 }}>🫙</span>
           </div>
           <div>
-            <span style={{ fontWeight: 800, fontSize: 20, color: "var(--text)", letterSpacing: -0.5 }}>JokeHub</span>
-            <div style={{ fontSize: 11, color: "var(--text-faint)", fontWeight: 500 }}>Laugh. Vote. Repeat.</div>
+            <span style={{ fontWeight: 800, fontSize: 20, color: "var(--text)", letterSpacing: -0.5 }}>Jokes Jar</span>
+            <div style={{ fontSize: 11, color: "var(--text-faint)", fontWeight: 500 }}>The funniest corner of the internet.</div>
           </div>
         </div>
 
@@ -457,7 +457,7 @@ export default function JokeHubApp() {
           ))}
         </div>
         <div style={{ fontSize: 11, color: "var(--text-faint)", marginTop: 8 }}>
-          JokeHub © {new Date().getFullYear()} · Made with 😂
+          Jokes Jar © {new Date().getFullYear()} · Made with 😂
           <span onClick={() => setPage("admin")} style={{ cursor: "default", userSelect: "none", color: "transparent" }}> admin</span>
         </div>
       </footer>
@@ -479,7 +479,7 @@ export default function JokeHubApp() {
             background: "var(--bg-solid)", boxShadow: "4px 0 24px rgba(0,0,0,0.2)", padding: "20px 16px",
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-              <span style={{ fontWeight: 800, fontSize: 18, color: "var(--text)" }}>😂 JokeHub</span>
+              <span style={{ fontWeight: 800, fontSize: 18, color: "var(--text)" }}>🫙 Jokes Jar</span>
               <button onClick={() => setMobileSidebar(false)} style={{ background: "none", border: "none", fontSize: 20, cursor: "pointer", color: "var(--text-muted)" }}>×</button>
             </div>
 

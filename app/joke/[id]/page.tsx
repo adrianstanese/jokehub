@@ -9,13 +9,13 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const joke = await prisma.joke.findFirst({ where: { id, status: "approved" }, select: { text: true, author: true } });
-  if (!joke) return { title: "Joke not found — JokeHub" };
+  if (!joke) return { title: "Joke not found — Jokes Jar" };
   const preview = joke.text.length > 120 ? joke.text.slice(0, 120) + "…" : joke.text;
   return {
-    title: `${preview} — JokeHub`,
-    description: `A joke by @${joke.author} on JokeHub`,
-    openGraph: { title: preview, description: `By @${joke.author} on JokeHub — Laugh. Vote. Repeat.`, type: "article" },
-    twitter: { card: "summary", title: preview, description: `By @${joke.author} on JokeHub` },
+    title: `${preview} — Jokes Jar`,
+    description: `A joke by @${joke.author} on Jokes Jar`,
+    openGraph: { title: preview, description: `By @${joke.author} on Jokes Jar — Laugh. Vote. Repeat.`, type: "article" },
+    twitter: { card: "summary", title: preview, description: `By @${joke.author} on Jokes Jar` },
   };
 }
 
@@ -30,7 +30,7 @@ export default async function JokePage({ params }: Props) {
   return (
     <div style={{ maxWidth: 600, margin: "40px auto", padding: "0 20px", fontFamily: "'DM Sans', sans-serif" }}>
       <a href="/" style={{ fontSize: 13, color: "var(--purple)", textDecoration: "none", fontWeight: 650, display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 20 }}>
-        ← Back to JokeHub
+        ← Back to Jokes Jar
       </a>
       <div style={{
         background: "var(--glass)", backdropFilter: "blur(20px) saturate(1.8)",

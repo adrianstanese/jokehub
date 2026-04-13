@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://jokehub.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://jokesjar.vercel.app";
 
   const [jokes, tags] = await Promise.all([
     prisma.joke.findMany({

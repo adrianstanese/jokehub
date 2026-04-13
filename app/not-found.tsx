@@ -11,7 +11,7 @@ export default function NotFound() {
         background: "var(--btn-gradient)", color: "#fff",
         borderRadius: 14, padding: "12px 24px", fontSize: 15, fontWeight: 650,
         textDecoration: "none", boxShadow: "var(--btn-shadow)",
-      }}>← Back to JokeHub</a>
+      }}>← Back to Jokes Jar</a>
     </div>
   );
 }

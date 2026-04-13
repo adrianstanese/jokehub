@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://jokehub.app/sitemap.xml
+Sitemap: https://jokesjar.com/sitemap.xml
 
 User-agent: GPTBot
 Allow: /

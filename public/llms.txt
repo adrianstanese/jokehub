@@ -1,4 +1,4 @@
-# JokeHub
+# Jokes Jar
 
 > The world's funniest corner of the internet. A multilingual joke-sharing platform where users submit, vote on, and discover jokes in 70+ languages.
 
@@ -12,9 +12,9 @@
 - Self-moderating: jokes with 20+ thumbs down are auto-removed
 
 ## Pages
-- [Home — Joke Feed](https://jokehub.app/)
-- [Tag Pages](https://jokehub.app/tag/doctors)
-- [Individual Jokes](https://jokehub.app/joke/{id})
+- [Home — Joke Feed](https://jokesjar.com/)
+- [Tag Pages](https://jokesjar.com/tag/doctors)
+- [Individual Jokes](https://jokesjar.com/joke/{id})
 
 ## Tech
 Built with Next.js 15, PostgreSQL, Prisma, deployed on Vercel.
