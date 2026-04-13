@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Joke {
+  id          String   @id @default(cuid())
+  text        String
+  author      String   @default("Anonymous")
+  lang        String   @default("EN")
+  status      String   @default("pending") // pending, approved, rejected, removed
+  thumbsUp    Int      @default(0)
+  thumbsDown  Int      @default(0)
+  flagCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  approvedAt  DateTime?
+  ip          String?
+  tags        JokeTag[]
+  votes       Vote[]
+  flags       Flag[]
+  reactions   Reaction[]
+
+  @@index([status, approvedAt(sort: Desc)])
+  @@index([status, thumbsUp(sort: Desc)])
+  @@index([lang])
+  @@index([createdAt])
+}
+
+model Tag {
+  id    String   @id @default(cuid())
+  name  String   @unique
+  jokes JokeTag[]
+
+  @@index([name])
+}
+
+model JokeTag {
+  joke   Joke   @relation(fields: [jokeId], references: [id], onDelete: Cascade)
+  jokeId String
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId  String
+
+  @@id([jokeId, tagId])
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  jokeId    String
+  joke      Joke     @relation(fields: [jokeId], references: [id], onDelete: Cascade)
+  value     Int      // 1 = thumbs up, -1 = thumbs down
+  visitorId String   // cookie-based visitor ID
+  createdAt DateTime @default(now())
+
+  @@unique([jokeId, visitorId])
+  @@index([jokeId])
+  @@index([visitorId])
+}
+
+model Flag {
+  id        String   @id @default(cuid())
+  jokeId    String
+  joke      Joke     @relation(fields: [jokeId], references: [id], onDelete: Cascade)
+  reason    String   @default("inappropriate")
+  visitorId String
+  createdAt DateTime @default(now())
+
+  @@unique([jokeId, visitorId])
+  @@index([jokeId])
+}
+
+model Reaction {
+  id        String   @id @default(cuid())
+  jokeId    String
+  joke      Joke     @relation(fields: [jokeId], references: [id], onDelete: Cascade)
+  emoji     String   // 😂 🤣 😐 🙄 💀
+  visitorId String
+  createdAt DateTime @default(now())
+
+  @@unique([jokeId, visitorId])
+  @@index([jokeId])
+}
+
+model Visit {
+  id        String   @id @default(cuid())
+  country   String   @default("XX")
+  flag      String   @default("🏳️")
+  visitorId String?
+  createdAt DateTime @default(now())
+
+  @@index([country])
+  @@index([createdAt])
+}

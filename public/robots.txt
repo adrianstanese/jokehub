@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Sitemap: https://jokehub.app/sitemap.xml
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /

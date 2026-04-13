@@ -1,0 +1,20 @@
+# JokeHub
+
+> The world's funniest corner of the internet. A multilingual joke-sharing platform where users submit, vote on, and discover jokes in 70+ languages.
+
+## Features
+- Browse jokes filtered by language, topic/hashtag, and time period
+- Vote with thumbs up/down — community-moderated content
+- Submit jokes with hashtags in any language
+- Joke of the Day, trending topics, random joke generator
+- Share jokes via direct links, WhatsApp, Twitter, Facebook
+- Dark/Light theme with Apple Liquid Glass design
+- Self-moderating: jokes with 20+ thumbs down are auto-removed
+
+## Pages
+- [Home — Joke Feed](https://jokehub.app/)
+- [Tag Pages](https://jokehub.app/tag/doctors)
+- [Individual Jokes](https://jokehub.app/joke/{id})
+
+## Tech
+Built with Next.js 15, PostgreSQL, Prisma, deployed on Vercel.
