@@ -261,7 +261,7 @@ export default function JokeHubApp() {
         padding: "10px 20px", display: "flex", justifyContent: "space-between", alignItems: "center",
         borderBottom: "1px solid var(--glass-border)", borderTop: "none",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }} onClick={() => setPage("feed")}>
           {/* Mobile hamburger */}
           <button onClick={() => setMobileSidebar(!mobileSidebar)} style={{
             display: "none", background: "none", border: "none", fontSize: 22, cursor: "pointer", color: "var(--text)", padding: 4,
@@ -355,7 +355,7 @@ export default function JokeHubApp() {
             {/* Time Period */}
             <div style={sideLabel}>🕒 Time Period</div>
             {TIME_FILTERS.map(t => (
-              <div key={t.key} style={sideItem(timePeriod === t.key)} onClick={() => setTimePeriod(t.key)}>
+              <div key={t.key} style={sideItem(timePeriod === t.key)} onClick={() => { setTimePeriod(t.key); setPage("feed"); }}>
                 <span>{t.icon} {t.label}</span>
               </div>
             ))}
@@ -363,7 +363,7 @@ export default function JokeHubApp() {
             {/* Sort By */}
             <div style={sideLabel}>↕️ Sort By</div>
             {SORT_OPTIONS.map(s => (
-              <div key={s.key} style={sideItem(sortBy === s.key)} onClick={() => setSortBy(s.key)}>
+              <div key={s.key} style={sideItem(sortBy === s.key)} onClick={() => { setSortBy(s.key); setPage("feed"); }}>
                 <span>{s.icon} {s.label}</span>
               </div>
             ))}
@@ -377,7 +377,7 @@ export default function JokeHubApp() {
               </div>
             )}
             {visibleLangs.map(l => (
-              <div key={l.code} style={sideItem(activeLang === l.code)} onClick={() => setActiveLang(l.code)}>
+              <div key={l.code} style={sideItem(activeLang === l.code)} onClick={() => { setActiveLang(l.code); setPage("feed"); }}>
                 <span>{l.flag} {l.code === "ALL" ? "All" : l.name}</span>
               </div>
             ))}
@@ -391,7 +391,7 @@ export default function JokeHubApp() {
               <>
                 <div style={sideLabel}>📈 Trending Now</div>
                 {trendingTags.slice(0, 5).map((t, i) => (
-                  <div key={t.name} style={sideItem(activeTag === t.name)} onClick={() => setActiveTag(t.name)}>
+                  <div key={t.name} style={sideItem(activeTag === t.name)} onClick={() => { setActiveTag(t.name); setPage("feed"); }}>
                     <span><span style={{ color: TAG_COLORS[i % TAG_COLORS.length], marginRight: 4 }}>●</span> #{t.name}</span>
                     <span style={{ fontSize: 11, color: "var(--text-faint)", fontWeight: 600, background: "var(--purple-faint)", borderRadius: 6, padding: "2px 7px" }}>{t.count}</span>
                   </div>
@@ -401,9 +401,9 @@ export default function JokeHubApp() {
 
             {/* Topics */}
             <div style={sideLabel}># Topics</div>
-            <div style={sideItem(!activeTag)} onClick={() => setActiveTag("")}>All Topics</div>
+            <div style={sideItem(!activeTag)} onClick={() => { setActiveTag(""); setPage("feed"); }}>All Topics</div>
             {visibleTags.map((t, i) => (
-              <div key={t.name} style={sideItem(activeTag === t.name)} onClick={() => setActiveTag(t.name)}>
+              <div key={t.name} style={sideItem(activeTag === t.name)} onClick={() => { setActiveTag(t.name); setPage("feed"); }}>
                 <span><span style={{ color: TAG_COLORS[i % TAG_COLORS.length], marginRight: 4 }}>●</span> #{t.name}</span>
                 <span style={{ fontSize: 11, color: "var(--text-faint)", fontWeight: 600, background: "var(--purple-faint)", borderRadius: 6, padding: "2px 7px" }}>{t.count}</span>
               </div>
