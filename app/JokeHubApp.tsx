@@ -770,7 +770,7 @@ function SubmitForm({ onBack, visitorId }: { onBack: () => void; visitorId: stri
         body: JSON.stringify({ text: text.trim(), author: author.trim() || "Anonymous", lang, tags: tags.map(t => "#" + t) }),
       });
       const data = await res.json();
-      if (res.ok) setResult({ ok: true, msg: "Joke submitted! Your joke is now live! Go back to the feed to see it." });
+      if (res.ok) setResult({ ok: true, msg: "Your joke is now live! Go back to the feed to see it." });
       else setResult({ ok: false, msg: data.error || "Something went wrong" });
     } catch { setResult({ ok: false, msg: "Network error" }); }
     setSubmitting(false);
