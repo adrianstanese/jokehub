@@ -321,7 +321,7 @@ export default function JokeHubApp() {
         <aside style={{
           width: 240, flexShrink: 0,
         }} className="sidebar-desktop">
-          <div style={{ ...glass, background: "var(--sidebar-bg)", padding: "20px 16px", position: "sticky", top: 76 }}>
+          <div style={{ ...glass, background: "var(--sidebar-bg)", padding: "20px 16px", position: "sticky", top: 76, maxHeight: "calc(100vh - 96px)", overflowY: "auto" }}>
             {/* Joke of the Day */}
             {jokeOfDay && (
               <div style={{ background: "var(--purple-faint)", borderRadius: 14, padding: "14px 16px", marginBottom: 16 }}>
