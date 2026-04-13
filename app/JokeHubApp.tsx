@@ -280,12 +280,6 @@ export default function JokeHubApp() {
         </div>
 
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-          {activeLang !== "ALL" && (
-            <span style={{ fontSize: 12, background: "var(--purple-faint)", color: "var(--purple)", borderRadius: 8, padding: "4px 10px", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
-              {getLangObj(activeLang).flag} {activeLang}
-              <span onClick={() => setActiveLang("ALL")} style={{ cursor: "pointer", marginLeft: 4, fontWeight: 800 }}>×</span>
-            </span>
-          )}
           {activeTag && (
             <span style={{ fontSize: 12, background: "var(--purple-faint)", color: "var(--purple)", borderRadius: 8, padding: "4px 10px", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
               #{activeTag}
@@ -368,24 +362,6 @@ export default function JokeHubApp() {
               </div>
             ))}
 
-            {/* Language */}
-            <div style={sideLabel}>🌐 Language</div>
-            {showAllLangs && (
-              <div style={{ marginBottom: 6, padding: "0 4px" }}>
-                <input value={langSearch} onChange={e => setLangSearch(e.target.value)} placeholder="Search..."
-                  style={{ width: "100%", border: "1px solid var(--glass-border)", borderRadius: 8, padding: "6px 10px", fontSize: 12, fontFamily: "inherit", outline: "none", background: "var(--input-bg)", color: "var(--text)", boxSizing: "border-box" }} />
-              </div>
-            )}
-            {visibleLangs.map(l => (
-              <div key={l.code} style={sideItem(activeLang === l.code)} onClick={() => { setActiveLang(l.code); setPage("feed"); }}>
-                <span>{l.flag} {l.code === "ALL" ? "All" : l.name}</span>
-              </div>
-            ))}
-            <div onClick={() => { setShowAllLangs(!showAllLangs); setLangSearch(""); }}
-              style={{ fontSize: 12, color: "var(--purple-light)", cursor: "pointer", padding: "6px 12px", fontWeight: 600 }}>
-              {showAllLangs ? "Show less ▲" : `Show all ${LANGUAGES.length} languages ▼`}
-            </div>
-
             {/* Trending Tags */}
             {trendingTags.length > 0 && (
               <>
@@ -439,7 +415,6 @@ export default function JokeHubApp() {
                   <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text)" }}>
                     {TIME_FILTERS.find(t => t.key === timePeriod)?.icon} {TIME_FILTERS.find(t => t.key === timePeriod)?.label}
                     {activeTag && <span style={{ color: "var(--purple)" }}> · #{activeTag}</span>}
-                    {activeLang !== "ALL" && <span style={{ color: "var(--purple)" }}> · {getLangObj(activeLang).flag} {activeLang}</span>}
                   </div>
                   <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
                     {jokes.length} joke{jokes.length !== 1 ? "s" : ""} · sorted by {SORT_OPTIONS.find(s => s.key === sortBy)?.label.toLowerCase()}
@@ -544,13 +519,6 @@ export default function JokeHubApp() {
               </div>
             ))}
 
-            <div style={sideLabel}>🌐 Language</div>
-            {LANGUAGES.slice(0, 10).map(l => (
-              <div key={l.code} style={sideItem(activeLang === l.code)} onClick={() => { setActiveLang(l.code); setMobileSidebar(false); }}>
-                <span>{l.flag} {l.code === "ALL" ? "All" : l.name}</span>
-              </div>
-            ))}
-
             <div style={sideLabel}># Topics</div>
             <div style={sideItem(!activeTag)} onClick={() => { setActiveTag(""); setMobileSidebar(false); }}>All Topics</div>
             {tags.slice(0, 8).map((t, i) => (
@@ -614,8 +582,8 @@ function JokeCard({ joke: j, idx, votes, onVote, onReact, onFlag, onShare, onTag
             }}>{j.author[0].toUpperCase()}</div>
             <div>
               <div style={{ fontWeight: 700, fontSize: 14, color: "var(--text)" }}>@{j.author}</div>
-              <div style={{ fontSize: 12, color: "var(--text-faint)", display: "flex", gap: 6, alignItems: "center" }}>
-                <span>{langObj.flag} {j.lang}</span><span>·</span><span>{timeAgo(j.approvedAt || j.createdAt)}</span>
+              <div style={{ fontSize: 12, color: "var(--text-faint)" }}>
+                {timeAgo(j.approvedAt || j.createdAt)}
               </div>
             </div>
           </div>
@@ -818,36 +786,6 @@ function SubmitForm({ onBack, visitorId }: { onBack: () => void; visitorId: stri
         <div style={{ marginBottom: 20 }}>
           <label style={{ fontSize: 12, fontWeight: 700, color: "var(--purple)", letterSpacing: 1, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Author Name</label>
           <input value={author} onChange={e => setAuthor(e.target.value)} placeholder="@YourName (optional)" style={inputStyle} maxLength={50} />
-        </div>
-
-        <div style={{ marginBottom: 20, position: "relative" }}>
-          <label style={{ fontSize: 12, fontWeight: 700, color: "var(--purple)", letterSpacing: 1, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Language *</label>
-          <div onClick={() => setShowLangDrop(!showLangDrop)} style={{ ...inputStyle, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span>{selLang.flag} {selLang.name}</span>
-            <span style={{ color: "var(--text-faint)", fontSize: 12 }}>{showLangDrop ? "▲" : "▼"}</span>
-          </div>
-          {showLangDrop && (
-            <div style={{
-              position: "absolute", top: "100%", left: 0, right: 0, zIndex: 100,
-              background: "var(--glass)", backdropFilter: "var(--blur)", border: "1px solid var(--glass-border)",
-              borderRadius: 14, boxShadow: "0 8px 32px rgba(124,58,237,0.15)", maxHeight: 260, overflow: "hidden",
-              display: "flex", flexDirection: "column",
-            }}>
-              <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--glass-border)" }}>
-                <input value={langSearch} onChange={e => setLangSearch(e.target.value)} placeholder="Search language..." autoFocus
-                  style={{ ...inputStyle, padding: "8px 12px", fontSize: 13 }} />
-              </div>
-              <div style={{ overflowY: "auto", maxHeight: 200 }}>
-                {filtered.map(l => (
-                  <div key={l.code} onClick={() => { setLang(l.code); setShowLangDrop(false); setLangSearch(""); }}
-                    style={{ padding: "9px 14px", cursor: "pointer", background: lang === l.code ? "var(--purple-faint)" : "transparent", display: "flex", gap: 10, alignItems: "center", fontSize: 13, color: lang === l.code ? "var(--purple)" : "var(--text)", fontWeight: lang === l.code ? 700 : 500, transition: "all .1s" }}>
-                    <span style={{ fontSize: 16 }}>{l.flag}</span><span>{l.name}</span>
-                    <span style={{ fontSize: 11, color: "var(--text-faint)", marginLeft: "auto" }}>{l.code}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         <div style={{ marginBottom: 24 }}>
