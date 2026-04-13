@@ -45,22 +45,8 @@ export async function POST(req: NextRequest) {
 
     // Check auto-removal: if thumbsDown >= 20, mark as removed
     const joke = await prisma.joke.findUnique({ where: { id: jokeId }, select: { thumbsUp: true, thumbsDown: true, status: true } });
-    if (joke && joke.thumbsDown >= 20 && joke.status === "approved") {
+    if (joke && joke.status === "approved" && joke.thumbsDown >= joke.thumbsUp + 10) {
       await prisma.joke.update({ where: { id: jokeId }, data: { status: "removed" } });
       return NextResponse.json({ action: "auto_removed", ...joke });
     }
 
-    // Auto-approve pending jokes with 10+ thumbs up
-    if (joke && joke.status === "pending" && joke.thumbsUp >= 10) {
-      await prisma.joke.update({ where: { id: jokeId }, data: { status: "approved", approvedAt: new Date() } });
-    }
-
-    return NextResponse.json({ action: existing ? "changed" : "voted", thumbsUp: joke?.thumbsUp, thumbsDown: joke?.thumbsDown });
-  } catch (e: any) {
-    if (e?.code === "P2002") {
-      return NextResponse.json({ error: "Already voted" }, { status: 409 });
-    }
-    console.error("POST /api/vote error:", e);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}

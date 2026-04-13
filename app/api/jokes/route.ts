@@ -153,14 +153,15 @@ export async function POST(req: NextRequest) {
         author: author?.trim() || "Anonymous",
         lang: lang || "EN",
         ip,
-        status: "pending",
+        status: "approved",
+        approvedAt: new Date(),
         tags: {
           create: tagRecords.map((t) => ({ tagId: t.id })),
         },
       },
     });
 
-    return NextResponse.json({ id: joke.id, status: "pending" }, { status: 201 });
+    return NextResponse.json({ id: joke.id, status: "approved" }, { status: 201 });
   } catch (e: any) {
     console.error("POST /api/jokes error:", e);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
