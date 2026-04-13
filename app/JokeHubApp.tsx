@@ -75,7 +75,7 @@ function JokeSkeleton() {
 // MAIN APP
 // ═══════════════════════════════════════
 
-export default function Jokes JarApp() {
+export default function JokeHubApp() {
   const [theme, setTheme] = useState("light");
   const [page, setPage] = useState<"feed" | "submit" | "admin">("feed");
   const [jokes, setJokes] = useState<Joke[]>([]);
